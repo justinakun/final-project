@@ -86,7 +86,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// GET/questions
+// get all questions
 app.get('/questions', async (req, res) => {
   try {
     const con = await client.connect();
@@ -98,18 +98,23 @@ app.get('/questions', async (req, res) => {
   }
 });
 
-// POST/questions
+// post a new question
 app.post('/questions', async (req, res) => {
   try {
     // not sure if the userId part is correct
     const { question } = req.body;
     const date = new Date();
-    const id = 1;
+    const edited = false;
     const con = await client.connect();
     const data = await con
       .db(dbName)
       .collection('questions')
-      .insertOne({ question, date, userId: new ObjectId(req.body.userId), id });
+      .insertOne({
+        question,
+        date,
+        edited,
+        userId: new ObjectId(req.body.userId),
+      });
     await con.close();
     res.send(data);
   } catch (error) {
@@ -117,29 +122,178 @@ app.post('/questions', async (req, res) => {
   }
 });
 
-// PATCH/questions/:id - same as put
-app.put('/questions/:id', async (req, res) => {
+// // get a particular question
+// app.get('/questions/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const con = await client.connect();
+//     const data = await con
+//       .db(dbName)
+//       .collection('questions')
+//       .findOne(new ObjectId(id));
+//     await con.close();
+//     res.send(data);
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
+
+// edit a particular question
+app.patch('/questions/:id', async (req, res) => {
   try {
-    const id = +req.params.id;
+    const { id } = req.params;
+    const { question } = req.body;
+
     const con = await client.connect();
     const questions = con.db(dbName).collection('questions');
-    const findIndex = await questions.findIndex(
-      (question) => question.id === id,
+
+    const result = await questions.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { question, edited: true } },
     );
-    if (findIndex !== -1) {
-      const newQuestion = req.body;
-      const updatedQuestion = { id, ...newQuestion };
-      // Since questions is a MongoDB collection, you cannot use splice directly
-      // Instead, you should use the updateOne method to update the document
-      await questions.updateOne({ id: id }, { $set: updatedQuestion });
-      res.send(updatedQuestion);
+
+    await con.close();
+
+    if (result.matchedCount === 1) {
+      res.send({ message: 'Question updated successfully' });
     } else {
-      res
-        .status(404)
-        .send({ message: 'The question with this ID does not exist' });
+      res.status(404).send({ message: 'Question not found' });
     }
   } catch (error) {
+    res.status(500).send({ message: 'Internal server error', error });
+  }
+});
+
+// delete a particular question:
+app.delete('/questions/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const con = await client.connect();
+    const questions = con.db(dbName).collection('questions');
+
+    const result = await questions.deleteOne({ _id: new ObjectId(id) });
+
+    await con.close();
+
+    if (result.deletedCount === 1) {
+      res.send({ message: 'Question deleted successfully' });
+    } else {
+      res.status(404).send({ message: 'Question not found' });
+    }
+  } catch (error) {
+    res.status(500).send({ message: 'Internal server error', error });
+  }
+});
+
+// get a question and answers to it ??
+app.get('/questions/:id/answers', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const con = await client.connect();
+    const db = con.db(dbName);
+    const aggregationPipeline = [
+      {
+        $match: { _id: new ObjectId(id) },
+      },
+      {
+        $lookup: {
+          from: 'answers',
+          localField: '_id',
+          foreignField: 'questionId',
+          as: 'answers',
+        },
+      },
+    ];
+
+    const result = await db
+      .collection('questions')
+      .aggregate(aggregationPipeline)
+      .toArray();
+
+    await con.close();
+
+    if (result.length > 0) {
+      res.send(result[0]);
+    } else {
+      res.status(404).send({ message: 'Question not found' });
+    }
+  } catch (error) {
+    res.status(500).send({ message: 'Internal server error', error });
+  }
+});
+
+// post answers
+app.post('/questions/:id/answers', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { newAnswer, idUser } = req.body;
+    const currentDate = new Date();
+    const edited = false;
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection('answers')
+      .insertOne({
+        answer: newAnswer,
+        date: currentDate,
+        edited,
+        questionId: new ObjectId(id),
+        userId: new ObjectId(idUser),
+      });
+    await con.close();
+    res.send(data);
+  } catch (error) {
     res.status(500).send(error);
+  }
+});
+
+// patch answers
+app.patch('/answers/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { answer } = req.body;
+
+    const con = await client.connect();
+    const answers = con.db(dbName).collection('answers');
+
+    const result = await answers.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { answer, edited: true } },
+    );
+
+    await con.close();
+
+    if (result.matchedCount === 1) {
+      res.send({ message: 'Answer updated successfully' });
+    } else {
+      res.status(404).send({ message: 'Answer not found' });
+    }
+  } catch (error) {
+    res.status(500).send({ message: 'Internal server error', error });
+  }
+});
+
+// delete answers
+app.delete('/answers/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const con = await client.connect();
+    const answers = con.db(dbName).collection('answers');
+
+    const result = await answers.deleteOne({ _id: new ObjectId(id) });
+
+    await con.close();
+
+    if (result.deletedCount === 1) {
+      res.send({ message: 'Answer deleted successfully' });
+    } else {
+      res.status(404).send({ message: 'Answer not found' });
+    }
+  } catch (error) {
+    res.status(500).send({ message: 'Internal server error', error });
   }
 });
 
