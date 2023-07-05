@@ -1,0 +1,25 @@
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: green;
+    color: white;
+  
+    a {
+      color: inherit;
+  
+      &.user-container {
+        color: inherit;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+    }
+  
+    &-items {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+  }

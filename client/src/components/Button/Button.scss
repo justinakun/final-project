@@ -1,0 +1,38 @@
+@import "../../styles/colors.scss";
+
+.styled-button {
+  font-size: 16px;
+  padding: 10px 16px;
+  border: 1px solid $primaryMain;
+  border-radius: 5px;
+  background-color: $primaryMain;
+  color: #ffffff;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $primaryDark;
+  }
+
+  &.error {
+    background-color: $errorMain;
+    border-color: $errorMain;
+
+    &:hover {
+      background-color: $errorDark;
+    }
+  }
+
+  &.success {
+    background-color: $successMain;
+    border-color: $successDark;
+  }
+
+  &.outlined {
+    background-color: white;
+    color: $primaryMain;
+
+    &:hover {
+      background-color: $outlinedButtonBackground;
+    }
+  }
+}

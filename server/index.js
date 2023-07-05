@@ -9,12 +9,12 @@ const URI = process.env.DB_CONNECTION_STRING;
 const dbName = process.env.DB_NAME;
 
 const app = express();
-app.use(express.json()); // aplikacija moka apdoroti JSON formatu ateinancius requestus
+app.use(express.json());
 app.use(cors());
 
 const client = new MongoClient(URI);
 
-// get all users
+// get all users - USED
 app.get('/', async (req, res) => {
   try {
     const con = await client.connect();
@@ -26,20 +26,30 @@ app.get('/', async (req, res) => {
   }
 });
 
-// POST /register - add a new user to the database
+// POST /register - add a new user to the database - USED
 app.post('/register', async (req, res) => {
   try {
     const { name, surname, username, email, age, password } = req.body;
     const con = await client.connect();
 
-    // check if the username already exists
-    const existingUser = await con
+    // Check if the username already exists
+    const existingUsername = await con
       .db(dbName)
       .collection('users')
       .findOne({ username: username });
-    if (existingUser) {
+    if (existingUsername) {
       await con.close();
-      return res.status(400).json({ error: 'Username already exists' });
+      return res.send('Username already exists');
+    }
+
+    // Check if the email already exists
+    const existingEmail = await con
+      .db(dbName)
+      .collection('users')
+      .findOne({ email: email });
+    if (existingEmail) {
+      await con.close();
+      return res.send('Email already exists');
     }
 
     const data = await con.db(dbName).collection('users').insertOne({
@@ -60,37 +70,56 @@ app.post('/register', async (req, res) => {
 // POST //login
 app.post('/login', async (req, res) => {
   try {
-    // check if the user exists
+    const { email, password } = req.body;
     const con = await client.connect();
-    const user = await con
+    const data = await con
       .db(dbName)
       .collection('users')
-      .findOne({ username: req.body.username });
-    if (user) {
-      // check if password matches
-      const result = req.body.password === user.password;
+      .findOne({ email: email });
 
-      // NOT SURE IF THIS CON.CLOSE IS IN THE RIGHT PLACE
-      await con.close();
-      if (result) {
-        // I may need to change the following behaviour
-        res.send('Login successful');
+    if (data) {
+      if (password === data.password) {
+        res.send(data);
       } else {
-        res.status(400).json({ error: "Password doesn't match the username" });
+        res.send("Password doesn't match the email");
       }
     } else {
-      res.status(400).json({ error: "User doesn't exist" });
+      res.send("User doesn't exist");
     }
   } catch (error) {
-    res.status(400).json({ error });
+    res.status(400).send(error);
+  } finally {
+    await client.close();
   }
 });
 
 // get all questions
+// app.get('/questions', async (req, res) => {
+//   try {
+//     const con = await client.connect();
+//     const data = await con.db(dbName).collection('questions').find().toArray();
+//     await con.close();
+//     res.send(data);
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
+
+// sorting questions
+// /questions?sort=asc
+// /questions?sort=dsc
 app.get('/questions', async (req, res) => {
   try {
+    const { sort } = req.query;
+    const sortType = sort === 'asc' ? 1 : -1;
+
     const con = await client.connect();
-    const data = await con.db(dbName).collection('questions').find().toArray();
+    const data = await con
+      .db(dbName)
+      .collection('questions')
+      .find()
+      .sort({ date: sortType })
+      .toArray();
     await con.close();
     res.send(data);
   } catch (error) {
@@ -143,13 +172,14 @@ app.patch('/questions/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { question } = req.body;
+    const date = new Date();
 
     const con = await client.connect();
     const questions = con.db(dbName).collection('questions');
 
     const result = await questions.updateOne(
       { _id: new ObjectId(id) },
-      { $set: { question, edited: true } },
+      { $set: { question, edited: true, date: date } },
     );
 
     await con.close();
