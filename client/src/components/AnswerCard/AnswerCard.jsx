@@ -1,4 +1,15 @@
-const AnswerCard = ({ name, surname, answer, date, edited }) => {
+import { Link, generatePath } from "react-router-dom";
+import { EDIT_AND_DELETE_ANSWER_ROUTE } from "../../routes/const";
+
+const AnswerCard = ({
+  name,
+  surname,
+  answer,
+  date,
+  edited,
+  isUserAnswer,
+  answerId,
+}) => {
   return (
     <div className="answer-card-container">
       <h3>
@@ -7,6 +18,15 @@ const AnswerCard = ({ name, surname, answer, date, edited }) => {
       <p>{answer}</p>
       <p>Date: {date}</p>
       {edited && <p>Edited</p>}
+      {isUserAnswer && (
+        <Link
+          to={generatePath(EDIT_AND_DELETE_ANSWER_ROUTE, {
+            id: answerId,
+          })}
+        >
+          UPDATE OR DELETE QUESTION
+        </Link>
+      )}
     </div>
   );
 };

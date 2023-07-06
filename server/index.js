@@ -296,13 +296,14 @@ app.patch('/answers/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { answer } = req.body;
+    const date = new Date();
 
     const con = await client.connect();
     const answers = con.db(dbName).collection('answers');
 
     const result = await answers.updateOne(
       { _id: new ObjectId(id) },
-      { $set: { answer, edited: true } },
+      { $set: { answer, edited: true, date: date } },
     );
 
     await con.close();
@@ -339,6 +340,21 @@ app.delete('/answers/:id', async (req, res) => {
   }
 });
 
+// get a particular answer
+app.get('/answers/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection('answers')
+      .findOne(new ObjectId(id));
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 app.listen(port, () => {
   console.log(`Server is running on the ${port} port`);
 });

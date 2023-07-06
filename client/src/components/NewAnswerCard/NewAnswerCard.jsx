@@ -1,9 +1,15 @@
-const NewAnswerCard = () => {
+import Button from "../Button/Button";
+
+const NewAnswerCard = ({ answerText, onAnswerTextChange, onSubmitAnswer }) => {
   return (
     <div>
-      <label htmlFor="newAnswer">Your answer:</label>
-
-      <textarea id="newAnswer" name="newAnswer" rows="5" cols="33"></textarea>
+      <h3>Add Your Answer</h3>
+      <textarea
+        value={answerText}
+        onChange={onAnswerTextChange}
+        placeholder="Enter your answer..."
+      ></textarea>
+      <Button onClick={onSubmitAnswer}>Submit</Button>
     </div>
   );
 };
