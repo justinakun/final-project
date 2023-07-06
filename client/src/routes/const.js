@@ -5,12 +5,16 @@ import NewQuestion from "../pages/NewQuestion/NewQuestion";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Profile from "../pages/Profile/Profile";
+import QuestionAndAnswers from "../pages/QuestionAndAnswers/QuestionAndAnswers";
+import EditAndDeleteQuestion from "../pages/EditAndDeleteQuestions/EditAndDeleteQuestion";
 
 export const REGISTER_ROUTE = "/register";
 export const LOGIN_ROUTE = "/";
 export const MAIN_ROUTE = "/";
 export const PROFILE_ROUTE = "/profile";
 export const NEW_QUESTION_ROUTE = "/newQuestion";
+export const QUESTION_AND_ANSWERS_ROUTE = "/questions/:id/answers";
+export const EDIT_AND_DELETE_QUESTION_ROUTE = "/questions/:id";
 
 export const loginRoutes = {
   Layout: LoginLayout,
@@ -40,6 +44,14 @@ export const authenticatedRoutes = {
     {
       path: NEW_QUESTION_ROUTE,
       Component: NewQuestion,
+    },
+    {
+      path: QUESTION_AND_ANSWERS_ROUTE,
+      Component: QuestionAndAnswers,
+    },
+    {
+      path: EDIT_AND_DELETE_QUESTION_ROUTE,
+      Component: EditAndDeleteQuestion,
     },
   ],
 };

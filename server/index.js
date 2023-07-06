@@ -131,7 +131,7 @@ app.get('/questions', async (req, res) => {
 app.post('/questions', async (req, res) => {
   try {
     // not sure if the userId part is correct
-    const { question } = req.body;
+    const { question, userId, name, surname } = req.body;
     const date = new Date();
     const edited = false;
     const con = await client.connect();
@@ -141,8 +141,10 @@ app.post('/questions', async (req, res) => {
       .insertOne({
         question,
         date,
+        name,
+        surname,
         edited,
-        userId: new ObjectId(req.body.userId),
+        userId: new ObjectId(userId),
       });
     await con.close();
     res.send(data);
@@ -151,24 +153,24 @@ app.post('/questions', async (req, res) => {
   }
 });
 
-// // get a particular question
-// app.get('/questions/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const con = await client.connect();
-//     const data = await con
-//       .db(dbName)
-//       .collection('questions')
-//       .findOne(new ObjectId(id));
-//     await con.close();
-//     res.send(data);
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
+// get a particular question
+app.get('/questions/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection('questions')
+      .findOne(new ObjectId(id));
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 // edit a particular question
-app.patch('/questions/:id', async (req, res) => {
+app.patch('/questions/:id/', async (req, res) => {
   try {
     const { id } = req.params;
     const { question } = req.body;
@@ -194,20 +196,28 @@ app.patch('/questions/:id', async (req, res) => {
   }
 });
 
-// delete a particular question:
+// delete a particular question with associated answers:
 app.delete('/questions/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
     const con = await client.connect();
-    const questions = con.db(dbName).collection('questions');
+    const db = con.db(dbName);
 
-    const result = await questions.deleteOne({ _id: new ObjectId(id) });
+    // Delete associated answers first
+    await db.collection('answers').deleteMany({ questionId: new ObjectId(id) });
+
+    // Delete the question
+    const result = await db
+      .collection('questions')
+      .deleteOne({ _id: new ObjectId(id) });
 
     await con.close();
 
     if (result.deletedCount === 1) {
-      res.send({ message: 'Question deleted successfully' });
+      res.send({
+        message: 'Question and associated answers deleted successfully',
+      });
     } else {
       res.status(404).send({ message: 'Question not found' });
     }
@@ -258,7 +268,7 @@ app.get('/questions/:id/answers', async (req, res) => {
 app.post('/questions/:id/answers', async (req, res) => {
   try {
     const { id } = req.params;
-    const { newAnswer, idUser } = req.body;
+    const { newAnswer, idUser, name, surname } = req.body;
     const currentDate = new Date();
     const edited = false;
     const con = await client.connect();
@@ -267,6 +277,8 @@ app.post('/questions/:id/answers', async (req, res) => {
       .collection('answers')
       .insertOne({
         answer: newAnswer,
+        name,
+        surname,
         date: currentDate,
         edited,
         questionId: new ObjectId(id),
