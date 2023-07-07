@@ -270,7 +270,10 @@ app.post('/questions/:id/answers', async (req, res) => {
     const { id } = req.params;
     const { newAnswer, idUser, name, surname } = req.body;
     const currentDate = new Date();
+    const likedBy = [];
+    const dislikedBy = [];
     const edited = false;
+
     const con = await client.connect();
     const data = await con
       .db(dbName)
@@ -281,6 +284,8 @@ app.post('/questions/:id/answers', async (req, res) => {
         surname,
         date: currentDate,
         edited,
+        likedBy,
+        dislikedBy,
         questionId: new ObjectId(id),
         userId: new ObjectId(idUser),
       });
@@ -305,11 +310,39 @@ app.patch('/answers/:id', async (req, res) => {
       { _id: new ObjectId(id) },
       { $set: { answer, edited: true, date: date } },
     );
-
     await con.close();
 
     if (result.matchedCount === 1) {
       res.send({ message: 'Answer updated successfully' });
+    } else {
+      res.status(404).send({ message: 'Answer not found' });
+    }
+  } catch (error) {
+    res.status(500).send({ message: 'Internal server error', error });
+  }
+});
+
+// patch likes - trying
+// patch likes
+app.patch('/answers/:id/likes', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { likedBy, dislikedBy } = req.body;
+    console.log(likedBy);
+    console.log(dislikedBy);
+
+    const con = await client.connect();
+    const answers = con.db(dbName).collection('answers');
+
+    const result = await answers.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { likedBy, dislikedBy } },
+    );
+
+    await con.close();
+
+    if (result.matchedCount === 1) {
+      res.send({ message: 'Likes updated successfully' });
     } else {
       res.status(404).send({ message: 'Answer not found' });
     }

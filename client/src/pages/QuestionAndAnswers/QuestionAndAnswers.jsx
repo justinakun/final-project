@@ -7,6 +7,7 @@ import { EDIT_AND_DELETE_QUESTION_ROUTE } from "../../routes/const";
 import AnswerCard from "../../components/AnswerCard/AnswerCard";
 import NewAnswerCard from "../../components/NewAnswerCard/NewAnswerCard";
 import Alert from "../../components/Alert/Alert";
+import Likes from "../../components/LikeDislike/LikeDislike";
 
 const QuestionAndAnswers = () => {
   const { id } = useParams();
@@ -111,6 +112,12 @@ const QuestionAndAnswers = () => {
             date={answer.date}
             edited={answer.edited}
             isUserAnswer={answer.userId === user._id}
+          />
+          <Likes
+            answerId={answer._id}
+            likedBy={answer.likedBy}
+            dislikedBy={answer.dislikedBy}
+            userId={user._id}
           />
         </div>
       ))}

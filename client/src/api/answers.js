@@ -28,3 +28,35 @@ export const deleteAnswer = async (id) => {
   const response = await axios.delete(`http://localhost:3000/answers/${id}`);
   return response.data;
 };
+
+// export const updateAnswerLikes = async (
+//   id,
+//   currentLikedBy,
+//   currentDislikedBy
+// ) => {
+//   console.log("reached axios");
+//   const response = await axios.patch(
+//     `http://localhost:3000/answers/${id}/likes`,
+//     currentLikedBy,
+//     currentDislikedBy
+//   );
+//   return response.data;
+// };
+
+export const updateAnswerLikes = async (
+  answerId,
+  updatedLikedBy,
+  updatedDislikedBy
+) => {
+  const data = {
+    likedBy: updatedLikedBy,
+    dislikedBy: updatedDislikedBy,
+  };
+  console.log(data);
+
+  const response = await axios.patch(
+    `http://localhost:3000/answers/${answerId}/likes`,
+    data
+  );
+  return response.data;
+};
