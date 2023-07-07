@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { SlLike, SlDislike } from "react-icons/sl";
 import { updateAnswerLikes } from "../../api/answers";
 
