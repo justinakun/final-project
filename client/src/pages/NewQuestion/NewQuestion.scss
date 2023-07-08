@@ -1,14 +1,20 @@
+// .new-question-page{
+//     margin: 0 auto;
+//     text-align: center;
+//     color: white;
+// }
+
 @import "../../styles/colors.scss";
 
 
-.edit-answer-page {
-    .edit-answer-container {
+.new-question-page {
+    .new-question-container {
         background-color: #6C8299;
         margin: 0 auto;
         width: 60%;
         border-radius: 15px;
         display: grid;
-        grid-template-rows: 1fr 4fr 1fr;
+
         color: white;
         min-height: 200px;
         margin-top: 6rem;
@@ -22,11 +28,8 @@
             font-size: 1.5rem;
         }
 
-        .btns-container {
-            display: flex;
-            justify-content: center;
+        .btn-container {
             padding: 1rem;
-            gap: 3rem;
         }
     }
 }

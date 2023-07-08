@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import FormItem from "../../components/FormItem/FormItem";
 import Button from "../../components/Button/Button";
 import { createQuestion } from "../../api/questions";
 import { UserContext } from "../../context/UserContext";
 import { MAIN_ROUTE } from "../../routes/const";
 import Alert from "../../components/Alert/Alert";
+import "./NewQuestion.scss";
 
 const NewQuestion = () => {
   const [question, setQuestion] = useState("");
@@ -40,20 +40,31 @@ const NewQuestion = () => {
   };
 
   return (
-    <div>
-      <form className="form" onSubmit={handleNewQuestion}>
-        <FormItem
-          label="Type in your question"
-          containerClassname="form-item"
-          type="text"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
+    <div className="new-question-page">
+      {success && (
+        <Alert
+          title="Success! Taking you to the main page..."
+          className="success"
         />
+      )}
+      <div className="new-question-container">
         <div>
-          <Button type="submit">Submit</Button>
+          <h2>Ask away...</h2>
         </div>
-      </form>
-      {success && <Alert title="Success! Taking you to the main page...." />}
+        <form onSubmit={handleNewQuestion}>
+          <textarea
+            type="text"
+            className="text-area"
+            rows="7"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
+          <div className="btn-container">
+            <Button type="submit">Post My Question</Button>
+          </div>
+        </form>
+        <div></div>
+      </div>
     </div>
   );
 };

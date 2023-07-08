@@ -4,6 +4,7 @@ import { getAnAnswer, updateAnswer, deleteAnswer } from "../../api/answers";
 import Button from "../../components/Button/Button";
 import Alert from "../../components/Alert/Alert";
 import { QUESTION_AND_ANSWERS_ROUTE } from "../../routes/const";
+import "./EditAndDeleteAnswer.scss";
 
 const EditAndDeleteAnswer = () => {
   const { id } = useParams();
@@ -66,26 +67,38 @@ const EditAndDeleteAnswer = () => {
   }
 
   return (
-    <div>
-      <p>
-        To edit your answer, click on it, change it, and click SAVE.
-        Alternatively, you can delete your answer.
-      </p>
-      {isEditing ? (
-        <input
-          type="text"
-          value={answer.answer}
-          onChange={(e) => setAnswer({ ...answer, answer: e.target.value })}
+    <div className="edit-answer-page">
+      {edited && (
+        <Alert
+          title="Success! Taking you to question page..."
+          className="success"
         />
-      ) : (
-        <h1 onClick={allowEdit}>{answer.answer}</h1>
       )}
-      <Button onClick={handleSaving}>Save</Button>
-      <Button onClick={handleDeletion}>Delete</Button>
-      {edited && <Alert title="Success! Taking you to the question page" />}
       {deleted && (
-        <Alert title="Deleted successfully! Taking you to the question page" />
+        <Alert
+          title="Deleted successfully! Taking you to question page..."
+          className="success"
+        />
       )}
+      <div className="edit-answer-container">
+        <h2>You are welcome to edit or delete your answer here</h2>
+        {isEditing ? (
+          <textarea
+            type="text"
+            className="text-area"
+            value={answer.answer}
+            onChange={(e) => setAnswer({ ...answer, answer: e.target.value })}
+          />
+        ) : (
+          <textarea className="text-area" onClick={allowEdit}>
+            {answer.answer}
+          </textarea>
+        )}
+        <div className="btns-container">
+          <Button onClick={handleSaving}>Save</Button>
+          <Button onClick={handleDeletion}>Delete</Button>
+        </div>
+      </div>
     </div>
   );
 };

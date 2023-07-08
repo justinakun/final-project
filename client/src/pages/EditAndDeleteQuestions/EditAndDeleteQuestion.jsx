@@ -78,10 +78,7 @@ const EditAndDeleteQuestion = () => {
         />
       )}
       {edited && (
-        <Alert
-          className="success"
-          title="Success! Taking you to main page..."
-        />
+        <Alert className="success" title="Success! Taking you to  page..." />
       )}
       <div className="edit-question-container">
         <h2>You are welcome to edit or delete your question here</h2>
