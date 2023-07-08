@@ -1,0 +1,47 @@
+@import "../../styles/shadows.scss";
+@import "../../styles/colors.scss";
+
+.form {
+    width: 500px;
+    padding: 2rem;
+    background-color: #273058;
+    box-shadow: $cardShadow;
+    border-radius: 15px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    text-align: left;
+
+    .input-item {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+
+        .input-label{
+          padding: 0.5rem 0 0.5rem 0;
+        }
+
+        .age-input-field {
+            padding:0.5rem 0 0.5rem 0;
+        }
+    }  
+        
+    .button-container {
+        padding-top: 1rem;        
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    
+        .to-login-link {
+            background-color: $yellowFun;
+            padding: 0.6rem;
+            border-radius: 5px;
+            color: black;
+        }
+    
+        .to-login-link:hover {
+            text-decoration: none;
+            background-color: $yellowDark;
+            }
+    }
+}
+    
+

@@ -29,18 +29,8 @@ app.get('/', async (req, res) => {
 // POST /register - add a new user to the database - USED
 app.post('/register', async (req, res) => {
   try {
-    const { name, surname, username, email, age, password } = req.body;
+    const { name, surname, email, age, password } = req.body;
     const con = await client.connect();
-
-    // Check if the username already exists
-    const existingUsername = await con
-      .db(dbName)
-      .collection('users')
-      .findOne({ username: username });
-    if (existingUsername) {
-      await con.close();
-      return res.send('Username already exists');
-    }
 
     // Check if the email already exists
     const existingEmail = await con
@@ -55,7 +45,6 @@ app.post('/register', async (req, res) => {
     const data = await con.db(dbName).collection('users').insertOne({
       name,
       surname,
-      username,
       email,
       age,
       password,

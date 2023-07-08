@@ -1,3 +1,51 @@
+@import "../../styles/colors.scss";
+@import "../../styles/shadows.scss";
+
 .main-container {
-    
+    margin: 0 auto;
+    width: 900px;
+
+    .main-links-buttons {  
+        display: flex;
+        margin-top: 5rem;
+        gap: 3rem;
+        justify-content: space-between;
+        border-bottom: 1px solid white;
+        padding: 2rem;
+
+
+        .new-question-link {
+            background-color: $yellowFun;
+            justify-self: end;
+            color: black;
+            padding: 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            border: 1px solid $yellowFun;
+            
+            &:hover {
+                background-color: $yellowDark;
+            }        
+
+        }
+
+        .filtering-buttons {
+            display: flex;
+            gap: 3rem;
+        }       
+    }
+
+    .link-to-questions {
+        background-color: $cardMain;
+        padding: 1rem;
+        margin: 2rem;
+        text-decoration: none;
+        color: white;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: darkslateblue;
+        }
+
+    }
 }

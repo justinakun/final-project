@@ -1,5 +1,9 @@
 @import "../../styles/colors.scss";
 
+.form {
+    width: 100%;
+}
+
 
 .alert {
     margin: 0 auto;
@@ -15,5 +19,12 @@
     color: white;
     background-color:$successMain;
     border: 1px solid $successDark;
-
 }
+
+.error {
+    color: white;
+    background-color: $errorMain;
+    border: 1px solid $errorDark;
+    margin-bottom: 0.5rem;
+}
+
