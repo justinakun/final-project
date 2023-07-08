@@ -1,16 +1,17 @@
-@import "../../styles/shadows.scss";
+@import "../../styles/colors.scss";
 
-.profile-form {
-  width: 500px;
+.profile-page {
+  color: white;
   margin: 0 auto;
-  padding: 2rem;
-  background-color: #ffffff;
-  box-shadow: $cardShadow;
-  border-radius: 10px;
+  margin-top: 6rem;
+  width: 600px;
+  text-align: center;
 
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+  .user-info-card {
+    padding: 1rem 2rem 1rem 2rem;
+    background-color: $primaryDark;
+    border-radius: 5px;
+    text-align: left;
   }
 }

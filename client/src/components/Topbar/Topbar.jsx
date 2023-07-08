@@ -1,29 +1,31 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
-import { PROFILE_ROUTE, topbarNavigationItems } from "../../routes/const";
+import { MAIN_ROUTE, PROFILE_ROUTE } from "../../routes/const";
+import { FiLogOut } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
+import { AiOutlineHome } from "react-icons/ai";
 import "./Topbar.scss";
-import Button from "../Button/Button";
 
 const Topbar = () => {
   const { handleLogout } = useContext(UserContext);
 
   return (
     <nav className="navigation">
-      <div>Logo</div>
-      <div className="navigation-items">
-        {topbarNavigationItems.map((navItem) => (
-          <Link to={navItem.route} key={navItem.title}>
-            {navItem.title}
-          </Link>
-        ))}
+      <div className="nav-start-items">
+        <Link to={MAIN_ROUTE}>
+          <AiOutlineHome className="nav-item" />
+        </Link>
       </div>
-      <Link to={PROFILE_ROUTE} className="user-container">
-        My Profile
-      </Link>
-      <Button type="button" variant="outlined" onClick={handleLogout}>
-        Logout
-      </Button>
+      <div className="nav-mid-items">
+        <h1 className="logo">chat away...</h1>
+      </div>
+      <div className="nav-end-items">
+        <Link to={PROFILE_ROUTE} className="user-container">
+          <CgProfile className="nav-item" />
+        </Link>
+        <FiLogOut onClick={handleLogout} className="nav-item log-out-item" />
+      </div>
     </nav>
   );
 };

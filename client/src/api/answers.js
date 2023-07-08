@@ -29,20 +29,6 @@ export const deleteAnswer = async (id) => {
   return response.data;
 };
 
-// export const updateAnswerLikes = async (
-//   id,
-//   currentLikedBy,
-//   currentDislikedBy
-// ) => {
-//   console.log("reached axios");
-//   const response = await axios.patch(
-//     `http://localhost:3000/answers/${id}/likes`,
-//     currentLikedBy,
-//     currentDislikedBy
-//   );
-//   return response.data;
-// };
-
 export const updateAnswerLikes = async (
   answerId,
   updatedLikedBy,

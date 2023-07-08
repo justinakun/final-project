@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE } from "../routes/const";
-import { postLogin, createUser, updateUser } from "../api/users";
+import { postLogin, createUser } from "../api/users";
 
 const UserContext = createContext({
   user: null,
@@ -59,17 +59,6 @@ const UserProvider = ({ children }) => {
     navigate(LOGIN_ROUTE);
   };
 
-  const handleUpdateUser = (updatingUser) => {
-    updateUser(user.id, updatingUser)
-      .then((response) => {
-        setUser(response);
-        localStorage.setItem("user", JSON.stringify(response));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   return (
     <UserContext.Provider
       value={{
@@ -78,7 +67,6 @@ const UserProvider = ({ children }) => {
         handleLogin,
         handleLogout,
         handleRegister,
-        handleUpdateUser,
       }}
     >
       {children}
