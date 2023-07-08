@@ -8,7 +8,9 @@ import AnswerCard from "../../components/AnswerCard/AnswerCard";
 import NewAnswerCard from "../../components/NewAnswerCard/NewAnswerCard";
 import Alert from "../../components/Alert/Alert";
 import Likes from "../../components/LikeDislike/LikeDislike";
-
+import "./QuestionAndANswers.scss";
+import { getFormattedDate, getFormattedTime } from "../../utils/date";
+import Edited from "../../components/Edited/Edited";
 const QuestionAndAnswers = () => {
   const { id } = useParams();
   const [question, setQuestion] = useState(null);
@@ -80,30 +82,57 @@ const QuestionAndAnswers = () => {
   };
 
   return (
-    <div>
-      {isUserCreator && (
-        <Link
-          to={generatePath(EDIT_AND_DELETE_QUESTION_ROUTE, {
-            id: question._id,
-          })}
-        >
-          UPDATE OR DELETE QUESTION
-        </Link>
-      )}
-      {isUserCreator && <p>You asked the question: </p>}
-      {!isUserCreator && (
-        <p>
-          {question.name} {question.surname} asked the question:
-        </p>
-      )}
-      <h1>{question.question}</h1>
-      {question.edited === true ? (
-        <p>question has been edited</p>
-      ) : (
-        <p>Original question</p>
-      )}
+    <div className="page-container">
+      <div className="single-question-container">
+        <div className="single-question-top">
+          {isUserCreator && (
+            <div>
+              Posted by you on {getFormattedDate(question.date)} at{" "}
+              {getFormattedTime(question.date)}
+            </div>
+          )}
+          {!isUserCreator && (
+            <div>
+              Posted by {question.name} {question.surname} on{" "}
+              {getFormattedDate(question.date)} at{" "}
+              {getFormattedTime(question.date)}
+            </div>
+          )}
+          {isUserCreator && (
+            <div>
+              <Link
+                className="edit-link"
+                to={generatePath(EDIT_AND_DELETE_QUESTION_ROUTE, {
+                  id: question._id,
+                })}
+              >
+                Edit
+              </Link>
+            </div>
+          )}
+        </div>
+        <div className="single-question-contents">
+          <h1>{question.question}</h1>
+        </div>
+        <div className="single-question-bottom">
+          {question.edited === true ? (
+            <Edited />
+          ) : (
+            <div className="original-text-container">
+              <i>Original post</i>
+            </div>
+          )}
+        </div>{" "}
+      </div>
+
       {question.answers.map((answer) => (
-        <div key={answer._id}>
+        <div key={answer._id} className="single-answer-container">
+          <Likes
+            answerId={answer._id}
+            likedBy={answer.likedBy}
+            dislikedBy={answer.dislikedBy}
+            userId={user._id}
+          />
           <AnswerCard
             answerId={answer._id}
             name={answer.name}
@@ -113,19 +142,16 @@ const QuestionAndAnswers = () => {
             edited={answer.edited}
             isUserAnswer={answer.userId === user._id}
           />
-          <Likes
-            answerId={answer._id}
-            likedBy={answer.likedBy}
-            dislikedBy={answer.dislikedBy}
-            userId={user._id}
-          />
         </div>
       ))}
-      <NewAnswerCard
-        answerText={answerText}
-        onAnswerTextChange={(e) => setAnswerText(e.target.value)}
-        onSubmitAnswer={handleAnswerSubmit}
-      />
+      <div className="new-answer-container">
+        <NewAnswerCard
+          answerText={answerText}
+          onAnswerTextChange={(e) => setAnswerText(e.target.value)}
+          onSubmitAnswer={handleAnswerSubmit}
+        />
+      </div>
+
       {postedAnswer && (
         <Alert title="Your answer has been successfully posted" />
       )}

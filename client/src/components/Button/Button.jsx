@@ -16,7 +16,7 @@ Button.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
   variant: PropTypes.oneOf(["contained", "outlined"]),
-  color: PropTypes.oneOf(["", "error", "success"]),
+  color: PropTypes.oneOf(["edit", "error", "success"]),
 };
 
 Button.defaultProps = {

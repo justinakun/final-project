@@ -1,8 +1,19 @@
+@import "../../styles/colors.scss";
+
+
 .alert {
-    border: 3px solid black;
+    margin: 0 auto;
+    margin-top: 1rem;
     padding: 1rem;
     width: 500px;
     text-align: center;
     font-size: larger;
-    color: red;
+    border-radius: 3px;
+}
+
+.success {
+    color: white;
+    background-color:$successMain;
+    border: 1px solid $successDark;
+
 }

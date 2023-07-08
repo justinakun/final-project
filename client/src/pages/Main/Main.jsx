@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getSortedQuestions } from "../../api/questions";
 import Button from "../../components/Button/Button";
-import { formatDate } from "../../utils/date";
+import { getFormattedDate } from "../../utils/date";
 import { Link, generatePath } from "react-router-dom";
 import { NEW_QUESTION_ROUTE } from "../../routes/const";
 import { QUESTION_AND_ANSWERS_ROUTE } from "../../routes/const";
@@ -50,10 +50,10 @@ const Main = () => {
             <h1>{question.question}</h1>
             <div>
               {question.edited && (
-                <p>Question edited on {formatDate(question.date)}</p>
+                <p>Question edited on {getFormattedDate(question.date)}</p>
               )}
               {!question.edited && (
-                <p>Question created on {formatDate(question.date)}</p>
+                <p>Question created on {getFormattedDate(question.date)}</p>
               )}{" "}
             </div>
           </div>

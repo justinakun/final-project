@@ -1,0 +1,29 @@
+.edit-question-page {
+
+    .edit-question-container {
+        background-color: #6C8299;
+        margin: 0 auto;
+        width: 60%;
+        border-radius: 15px;
+        display: grid;
+        grid-template-rows: 1fr 4fr 1fr;
+        color: white;
+        min-height: 200px;
+        margin-top: 6rem;
+        padding: 1rem;
+        text-align: center;
+    
+        .text-area {
+            width: 100%;
+            text-align: auto;
+            padding: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .btns-container {
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            gap: 3rem;
+        }
+    }
+}

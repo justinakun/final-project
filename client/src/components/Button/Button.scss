@@ -27,6 +27,17 @@
     border-color: $successDark;
   }
 
+  &.edit {
+    background-color: $editMain;
+    border-color: $editMain;
+
+    &:hover {
+      background-color: $editDark;
+    }
+  }
+
+
+
   &.outlined {
     background-color: white;
     color: $primaryMain;

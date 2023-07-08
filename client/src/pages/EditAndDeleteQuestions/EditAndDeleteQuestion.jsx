@@ -8,6 +8,7 @@ import {
 import Button from "../../components/Button/Button";
 import Alert from "../../components/Alert/Alert";
 import { MAIN_ROUTE } from "../../routes/const";
+import "./EditANdDeleteQuestion.scss";
 
 const EditAndDeleteQuestion = () => {
   const { id } = useParams();
@@ -69,28 +70,40 @@ const EditAndDeleteQuestion = () => {
   }
 
   return (
-    <div>
-      <p>
-        To edit your question, click on it, change it, and click SAVE.
-        Alternatively, you can delete your question.
-      </p>
-      {isEditing ? (
-        <input
-          type="text"
-          value={question.question}
-          onChange={(e) =>
-            setQuestion({ ...question, question: e.target.value })
-          }
-        />
-      ) : (
-        <h1 onClick={allowEdit}>{question.question}</h1>
-      )}
-      <Button onClick={handleSaving}>Save</Button>
-      <Button onClick={handleDeletion}>Delete</Button>
-      {edited && <Alert title="Success! Taking you to question page" />}
+    <div className="edit-question-page">
       {deleted && (
-        <Alert title="Deleted successfully! Taking you to question page" />
+        <Alert
+          className="success"
+          title="Deleted successfully! Taking you to main page..."
+        />
       )}
+      {edited && (
+        <Alert
+          className="success"
+          title="Success! Taking you to main page..."
+        />
+      )}
+      <div className="edit-question-container">
+        <h2>You are welcome to edit or delete your question here</h2>
+        {isEditing ? (
+          <textarea
+            className="text-area"
+            type="text"
+            value={question.question}
+            onChange={(e) =>
+              setQuestion({ ...question, question: e.target.value })
+            }
+          />
+        ) : (
+          <textarea className="text-area" onClick={allowEdit}>
+            {question.question}
+          </textarea>
+        )}
+        <div className="btns-container">
+          <Button onClick={handleSaving}>Post My Edited Question</Button>
+          <Button onClick={handleDeletion}>Delete My Question</Button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,48 @@
+@import "../../styles/shadows.scss";
+@import "../../styles/colors.scss";
+
 .answer-card-container {
-    border: 2px solid black;
-    width: 700px;
+    width: 100%;
+    min-height: 200px;
+    color: white;
+    padding: 2rem;
+    border-left: 1px solid white;
+
+    .answer-card-top {
+        display: flex;
+        justify-content: space-between;
+        color: darkgray;
+
+        .edit-link {
+            background-color: $editMain;
+            color: $editText;
+            padding: 0.7rem 1.5rem 0.7rem 1.5rem;
+            border-radius: 3px;
+
+            &:hover {
+                background-color: $editDark;
+                text-decoration: none;
+            }
+        }
+    }
+
+    .answer-card-main {
+        .the-answer {
+            text-align: justify;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+    }
+
+    .answer-card-bottom {
+        display: flex;
+        justify-content: space-between;
+        color: grey;
+
+        .original-post-text {
+            color: green;
+
+        }
+    }
+
 }

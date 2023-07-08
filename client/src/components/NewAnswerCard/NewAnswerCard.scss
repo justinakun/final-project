@@ -1,0 +1,15 @@
+.new-answer-card-container {
+    display: grid;
+    grid-template-rows: 3fr 1fr;
+    border-radius: 20px;
+    border-radius: 30px;
+
+    .text-area {
+        width: 100%;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding: 1rem;
+       
+    }
+
+}

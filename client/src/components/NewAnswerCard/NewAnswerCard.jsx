@@ -1,15 +1,16 @@
 import Button from "../Button/Button";
+import "./NewAnswerCard.scss";
 
 const NewAnswerCard = ({ answerText, onAnswerTextChange, onSubmitAnswer }) => {
   return (
-    <div>
-      <h3>Add Your Answer</h3>
+    <div className="new-answer-card-container">
       <textarea
+        className="text-area"
         value={answerText}
         onChange={onAnswerTextChange}
-        placeholder="Enter your answer..."
+        placeholder="Type your answer here..."
       ></textarea>
-      <Button onClick={onSubmitAnswer}>Submit</Button>
+      <Button onClick={onSubmitAnswer}>Post</Button>
     </div>
   );
 };

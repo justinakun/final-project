@@ -1,0 +1,66 @@
+@import "../../styles/shadows.scss";
+@import "../../styles/colors.scss";
+
+.page-container {
+    margin-top: 3rem;
+
+    .single-question-container {    
+        margin: 0 auto;
+        padding: 2rem;
+        width: 60%;
+        background-color: $cardMain;
+        box-shadow: $cardShadow;
+        border-radius: 10px; 
+        color: white;
+    
+        .single-question-top {
+            display: flex;
+            justify-content: space-between;
+            color: darkgray;
+    
+            .edit-link {
+                background-color: $editMain;
+                color: $editText;
+                padding: 0.7rem 1.5rem 0.7rem 1.5rem;
+                border-radius: 3px;
+    
+                &:hover {
+                    background-color: $editDark;
+                    text-decoration: none;
+                }
+            }    
+        }
+        .single-question-contents {
+            text-align: justify;
+        }
+
+        .single-question-bottom {
+            .original-text-container {
+                color: green;
+            }
+        }
+
+    
+    }
+    .single-answer-container {
+        margin: 0 auto;
+        margin-top: 2rem;
+        background-color: $cardMain;
+        width: 50%;
+        box-shadow: $cardShadow;
+        border-radius: 10px;      
+        display: flex; 
+        align-items: center; 
+    }    
+
+    .new-answer-container {
+        margin: 0 auto;
+        background-color: $answerCardMain;
+        width: 50%;
+        margin-top: 3rem;
+        margin-bottom: 5rem;
+        border-radius: 15px;
+        padding: 1rem;
+    }
+}
+

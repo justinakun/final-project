@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { SlLike, SlDislike } from "react-icons/sl";
 import { updateAnswerLikes } from "../../api/answers";
+import "./LikeDislike.scss";
 
 const LikeDislike = ({ answerId, likedBy, dislikedBy, userId }) => {
   const [liked, setLiked] = useState(likedBy.includes(userId));
@@ -66,21 +67,22 @@ const LikeDislike = ({ answerId, likedBy, dislikedBy, userId }) => {
   };
 
   return (
-    <div>
-      <div onClick={liked ? null : handleLike}>
-        <SlLike />
-        <p>{liked ? "You liked" : "Like"}</p>
-        <p>
-          {likeCount} {likeCount === 1 ? "person likes" : "people like"}
-        </p>
+    <div className="like-dislike-container">
+      <div onClick={liked ? null : handleLike} className="like-container">
+        <SlLike className="like-icon" />
+
+        <div className="like-count">{likeCount}</div>
       </div>
-      <div onClick={disliked ? null : handleDislike}>
-        <SlDislike />
-        <p>{disliked ? "You disliked" : "Dislike"}</p>
-        <p>
-          {dislikeCount}{" "}
-          {dislikeCount === 1 ? "person dislikes" : "people dislike"}
-        </p>
+      <div
+        onClick={disliked ? null : handleDislike}
+        className="dislike-container"
+      >
+        <SlDislike className="dislike-icon" />
+        <div className="dislike-count">{dislikeCount}</div>
+      </div>
+      <div>
+        {liked ? "You liked" : ""}
+        {disliked ? "You disliked" : ""}
       </div>
     </div>
   );
