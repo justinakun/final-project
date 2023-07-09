@@ -92,9 +92,11 @@ const EditAndDeleteQuestion = () => {
             }
           />
         ) : (
-          <textarea className="text-area" onClick={allowEdit}>
-            {question.question}
-          </textarea>
+          <textarea
+            className="text-area"
+            onClick={allowEdit}
+            defaultValue={question.question}
+          />
         )}
         <div className="btns-container">
           <Button onClick={handleSaving}>Post My Edited Question</Button>

@@ -5,7 +5,9 @@ import { getFormattedDate, getFormattedTime } from "../../utils/date";
 import { Link, generatePath } from "react-router-dom";
 import { NEW_QUESTION_ROUTE } from "../../routes/const";
 import { QUESTION_AND_ANSWERS_ROUTE } from "../../routes/const";
+import { SiAnswer } from "react-icons/si";
 import "./Main.scss";
+import Loader from "../../components/Loader/Loader";
 
 const Main = () => {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -27,7 +29,7 @@ const Main = () => {
   }, [sort]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (allQuestions.length === 0) {
@@ -45,8 +47,8 @@ const Main = () => {
         <div className="filtering-buttons">
           <Button onClick={() => setSort("dsc")}>Newest</Button>
           <Button onClick={() => setSort("asc")}>Oldest</Button>
-          <Button>Answered</Button>
-          <Button>Unanswered</Button>
+          <Button onClick={() => setSort("answered")}>Answered</Button>
+          <Button onClick={() => setSort("unanswered")}>Unanswered</Button>
         </div>
       </div>
 
@@ -54,16 +56,21 @@ const Main = () => {
         <Link
           key={question._id}
           to={generatePath(QUESTION_AND_ANSWERS_ROUTE, { id: question._id })}
+          className="full-question-link"
         >
           <div key={question._id} className="link-to-questions">
             <h1 className="link-to-questions-title">{question.question}</h1>
-            <div>
+            <div className="question-info-container">
               {
-                <p>
+                <div className="question-info-date">
                   Question created on {getFormattedDate(question.date)} at{" "}
                   {getFormattedTime(question.date)}
-                </p>
+                </div>
               }
+              <div className="question-info-count">
+                <h3>{question.answerCount}</h3>
+                <SiAnswer />
+              </div>
             </div>
           </div>
         </Link>

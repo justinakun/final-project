@@ -82,35 +82,80 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// get all questions
-// app.get('/questions', async (req, res) => {
-//   try {
-//     const con = await client.connect();
-//     const data = await con.db(dbName).collection('questions').find().toArray();
-//     await con.close();
-//     res.send(data);
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
-
-// sorting questions
-// /questions?sort=asc
-// /questions?sort=dsc
+// sort questions based on query parameters
 app.get('/questions', async (req, res) => {
   try {
     const { sort } = req.query;
-    const sortType = sort === 'asc' ? 1 : -1;
+    let sortField;
+    let sortType;
+
+    if (sort === 'dsc') {
+      sortField = 'date';
+      sortType = -1;
+    } else if (sort === 'asc') {
+      sortField = 'date';
+      sortType = 1;
+    } else if (sort === 'answered') {
+      sortField = 'answerCount';
+      sortType = -1;
+    } else if (sort === 'unanswered') {
+      sortField = 'answerCount';
+      sortType = 1;
+    } else {
+      sortField = 'date';
+      sortType = -1; // Default sorting by date in descending order (newest first)
+    }
 
     const con = await client.connect();
     const data = await con
       .db(dbName)
       .collection('questions')
-      .find()
-      .sort({ date: sortType })
+      .aggregate([
+        {
+          $lookup: {
+            from: 'answers',
+            localField: '_id',
+            foreignField: 'questionId',
+            as: 'answers',
+          },
+        },
+        {
+          $addFields: {
+            answerCount: { $size: '$answers' },
+          },
+        },
+        {
+          $sort: {
+            [sortField]: sortType,
+          },
+        },
+      ])
       .toArray();
+
     await con.close();
-    res.send(data);
+
+    const questions = data.map((question) => {
+      return {
+        _id: question._id,
+        question: question.question,
+        date: question.date,
+        answerCount: question.answerCount,
+      };
+    });
+
+    if (sort === 'unanswered') {
+      const unansweredQuestions = questions.filter(
+        (question) => question.answerCount === 0,
+      );
+      res.send(unansweredQuestions);
+    } else if (sort === 'answered') {
+      const answeredQuestions = questions.filter(
+        (question) => question.answerCount !== 0,
+      );
+      res.send(answeredQuestions);
+    } else {
+      res.send(questions);
+    }
   } catch (error) {
     res.status(500).send(error);
   }

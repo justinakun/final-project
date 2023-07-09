@@ -90,9 +90,11 @@ const EditAndDeleteAnswer = () => {
             onChange={(e) => setAnswer({ ...answer, answer: e.target.value })}
           />
         ) : (
-          <textarea className="text-area" onClick={allowEdit}>
-            {answer.answer}
-          </textarea>
+          <textarea
+            className="text-area"
+            onClick={allowEdit}
+            defaultValue={answer.answer}
+          />
         )}
         <div className="btns-container">
           <Button onClick={handleSaving}>Save</Button>

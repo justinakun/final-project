@@ -5,6 +5,10 @@
     margin: 0 auto;
     width: 900px;
 
+    .full-question-link {
+        text-decoration: none;
+    }
+
     .main-links-buttons {  
         display: flex;
         margin-top: 5rem;
@@ -25,8 +29,7 @@
             
             &:hover {
                 background-color: $yellowDark;
-            }        
-
+            }  
         }
 
         .filtering-buttons {
@@ -47,5 +50,18 @@
             background-color: darkslateblue;
         }
 
+        .question-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+
+            .question-info-count {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                text-decoration: none;
+            }
+
+        }
     }
 }

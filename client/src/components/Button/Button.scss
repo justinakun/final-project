@@ -12,38 +12,4 @@
     cursor: pointer;
     background-color: $primaryDark;
   }
-
-  &.error {
-    background-color: $errorMain;
-    border-color: $errorMain;
-
-    &:hover {
-      background-color: $errorDark;
-    }
-  }
-
-  &.success {
-    background-color: $successMain;
-    border-color: $successDark;
-  }
-
-  &.edit {
-    background-color: $editMain;
-    border-color: $editMain;
-
-    &:hover {
-      background-color: $editDark;
-    }
-  }
-
-
-
-  &.outlined {
-    background-color: white;
-    color: $primaryMain;
-
-    &:hover {
-      background-color: $outlinedButtonBackground;
-    }
-  }
 }
