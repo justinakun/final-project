@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE } from "../routes/const";
 import { postLogin, createUser } from "../api/users";
+import PropTypes from "prop-types";
 
 const UserContext = createContext({
   user: null,
@@ -72,6 +73,10 @@ const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   );
+};
+
+UserProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export { UserContext, UserProvider };

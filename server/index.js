@@ -14,7 +14,7 @@ app.use(cors());
 
 const client = new MongoClient(URI);
 
-// get all users - USED
+// get all users
 app.get('/', async (req, res) => {
   try {
     const con = await client.connect();
@@ -26,7 +26,7 @@ app.get('/', async (req, res) => {
   }
 });
 
-// POST /register - add a new user to the database - USED
+// POST /register - add a new user to the database
 app.post('/register', async (req, res) => {
   try {
     const { name, surname, email, age, password } = req.body;
@@ -103,7 +103,7 @@ app.get('/questions', async (req, res) => {
       sortType = 1;
     } else {
       sortField = 'date';
-      sortType = -1; // Default sorting by date in descending order (newest first)
+      sortType = -1; // Default sorting
     }
 
     const con = await client.connect();
@@ -164,7 +164,6 @@ app.get('/questions', async (req, res) => {
 // post a new question
 app.post('/questions', async (req, res) => {
   try {
-    // not sure if the userId part is correct
     const { question, userId, name, surname } = req.body;
     const date = new Date();
     const edited = false;
@@ -260,7 +259,7 @@ app.delete('/questions/:id', async (req, res) => {
   }
 });
 
-// get a question and answers to it ??
+// get a question and answers to it
 app.get('/questions/:id/answers', async (req, res) => {
   try {
     const { id } = req.params;
@@ -356,7 +355,6 @@ app.patch('/answers/:id', async (req, res) => {
   }
 });
 
-// patch likes - trying
 // patch likes
 app.patch('/answers/:id/likes', async (req, res) => {
   try {
@@ -422,6 +420,7 @@ app.get('/answers/:id', async (req, res) => {
     res.status(500).send(error);
   }
 });
+
 app.listen(port, () => {
   console.log(`Server is running on the ${port} port`);
 });

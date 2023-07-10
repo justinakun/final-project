@@ -17,21 +17,6 @@
         border-bottom: 1px solid white;
         padding: 2rem;
 
-
-        .new-question-link {
-            background-color: $yellowFun;
-            justify-self: end;
-            color: black;
-            padding: 1.5rem;
-            border-radius: 5px;
-            text-decoration: none;
-            border: 1px solid $yellowFun;
-            
-            &:hover {
-                background-color: $yellowDark;
-            }  
-        }
-
         .filtering-buttons {
             display: flex;
             gap: 3rem;
@@ -61,7 +46,35 @@
                 gap: 1rem;
                 text-decoration: none;
             }
-
         }
+    }
+}
+
+.new-question-link {
+    background-color: $yellowFun;
+    justify-self: end;
+    color: black;
+    padding: 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 1px solid $yellowFun;
+    
+    &:hover {
+        background-color: $yellowDark;
+    }  
+}
+
+.no-questions-div {
+    margin: 0 auto;
+    width: 500px;
+    text-align: center;
+    color: white;
+    margin-top: 3rem;
+    display: grid;
+    align-items: center;
+
+    .new-question-link{
+        justify-self: center;
+        margin-top: 3rem;
     }
 }

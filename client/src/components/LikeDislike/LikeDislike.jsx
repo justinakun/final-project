@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { SlLike, SlDislike } from "react-icons/sl";
 import { updateAnswerLikes } from "../../api/answers";
+import PropTypes from "prop-types";
 import "./LikeDislike.scss";
 
 const LikeDislike = ({ answerId, likedBy, dislikedBy, userId }) => {
@@ -86,6 +87,13 @@ const LikeDislike = ({ answerId, likedBy, dislikedBy, userId }) => {
       </div>
     </div>
   );
+};
+
+LikeDislike.propTypes = {
+  answerId: PropTypes.string.isRequired,
+  likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
+  dislikedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default LikeDislike;

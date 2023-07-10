@@ -1,9 +1,11 @@
 import { Link, generatePath } from "react-router-dom";
 import { EDIT_AND_DELETE_ANSWER_ROUTE } from "../../routes/const";
-import "./AnswerCard.scss";
 import { getFormattedDate } from "../../utils/date";
 import { getFormattedTime } from "../../utils/date";
+import PropTypes from "prop-types";
 import Edited from "../Edited/Edited";
+import "./AnswerCard.scss";
+
 const AnswerCard = ({
   name,
   surname,
@@ -25,7 +27,6 @@ const AnswerCard = ({
 
         {isUserAnswer && (
           <div>
-            {" "}
             <Link
               className="edit-link"
               to={generatePath(EDIT_AND_DELETE_ANSWER_ROUTE, {
@@ -56,6 +57,16 @@ const AnswerCard = ({
       </div>
     </div>
   );
+};
+
+AnswerCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  surname: PropTypes.string.isRequired,
+  answer: PropTypes.string.isRequired,
+  date: PropTypes.instanceOf(Date).isRequired,
+  edited: PropTypes.bool.isRequired,
+  isUserAnswer: PropTypes.bool.isRequired,
+  answerId: PropTypes.string.isRequired,
 };
 
 export default AnswerCard;

@@ -61,5 +61,3 @@ export const authenticatedRoutes = {
     },
   ],
 };
-
-export const topbarNavigationItems = [{ route: MAIN_ROUTE, title: "Home" }];

@@ -30,7 +30,7 @@ const EditAndDeleteAnswer = () => {
 
   useEffect(() => {
     if (edited || deleted) {
-      const questionId = answer.questionId; // Fetch the questionId from the answer object
+      const questionId = answer.questionId;
       const redirectTimer = setTimeout(() => {
         navigate(QUESTION_AND_ANSWERS_ROUTE.replace(":id", questionId));
       }, 2000);

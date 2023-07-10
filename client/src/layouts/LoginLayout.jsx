@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import "./LoginLayout.scss";
 
 const LoginLayout = ({ children }) => {
@@ -7,6 +8,10 @@ const LoginLayout = ({ children }) => {
       {children}
     </div>
   );
+};
+
+LoginLayout.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default LoginLayout;

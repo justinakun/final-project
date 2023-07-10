@@ -6,8 +6,8 @@ import { Link, generatePath } from "react-router-dom";
 import { NEW_QUESTION_ROUTE } from "../../routes/const";
 import { QUESTION_AND_ANSWERS_ROUTE } from "../../routes/const";
 import { SiAnswer } from "react-icons/si";
-import "./Main.scss";
 import Loader from "../../components/Loader/Loader";
+import "./Main.scss";
 
 const Main = () => {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -33,7 +33,14 @@ const Main = () => {
   }
 
   if (allQuestions.length === 0) {
-    return <div>There are no questions yet.</div>;
+    return (
+      <div className="no-questions-div">
+        <div>There are no questions yet, be the first one to ask!</div>
+        <Link to={NEW_QUESTION_ROUTE} className="new-question-link">
+          Ask a Question
+        </Link>
+      </div>
+    );
   }
 
   return (
